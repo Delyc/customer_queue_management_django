@@ -29,4 +29,7 @@ def delete_customer(request, pk):
     teller = customer.teller
     customer.delete()
     return redirect(teller)
-# Create your views here.
+
+
+
+

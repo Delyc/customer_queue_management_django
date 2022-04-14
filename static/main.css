@@ -1,9 +1,9 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@200;400;600&display=swap');
-*{
+
+* {
     margin: 0;
 
-    padding:0;
+    padding: 0;
 }
 
 body {
@@ -12,9 +12,10 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-   
+
 
 }
+
 .counter {
     display: flex;
     flex-direction: rows;
@@ -22,15 +23,17 @@ body {
     padding: 1rem;
     gap: 1rem;
 }
+
 .counter .digit {
-    font-size: 1.5rem;
-    padding: 1rem 2rem;
-    margin: 5px 10px ;
+    font-size: 1rem;
+    padding: .5rem 1rem;
+    margin: 5px;
     border-radius: 10px;
     background-color: #1B73E8;
     color: white;
     font-weight: bolder;
 }
+
 a {
     font-family: "Lexend";
     font-weight: bold;
@@ -38,13 +41,14 @@ a {
     text-decoration: none;
     background-color: #1B73E8;
     box-shadow: 2px 2px 2px #444;
-    padding: .5rem 1rem ;
+    padding: .5rem 1rem;
     margin: 5px;
     border-radius: 10px;
     width: 12rem;
     border: 0;
     text-align: center;
 }
+
 .delete {
     color: white;
     background-color: red;
@@ -53,14 +57,15 @@ a {
     border: 0;
     text-align: center;
 }
+
 .add {
     font-family: "Lexend";
     font-weight: bold;
     color: white;
     text-decoration: none;
-   
+
     box-shadow: 2px 2px 2px #444;
-    padding: .5rem 1rem ;
+    padding: .5rem 1rem;
     margin: 5px;
     border-radius: 10px;
     width: 8rem;
@@ -68,54 +73,72 @@ a {
     text-align: center;
     color: white;
     background-color: #1B73E8;
-  
-    
-}
-.all{
-    position: relative;
-    top: 15rem;
-    display: flex;
-    gap: 5rem;
+
+
 }
 
-.on{
+.all {
+    position: relative;
+    padding: 2rem;
+    width: 80%;
+}
+
+.all .title {
+    text-align: center;
+    color: blue;
+}
+
+.teller-list {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+
+}
+
+.teller-list .teller-info {
+    margin: 1rem;
+    border-radius: 10px;
+    box-shadow: 2px 3px 4px blue;
+    padding: 1rem;
+}
+
+.on {
     display: flex;
     flex-direction: column;
 }
 
-.welcome{
+.welcome {
     color: #1B73E8;
-    font-size: 6rem;
-    margin-top: 3rem;
+    font-size: 3rem;
+    margin-top: 1rem;
     /* margin-bottom: -1rem; */
 
 
 }
 
-.intro{
+.intro {
     text-align: center;
     width: 30%;
     margin-bottom: 1rem;
     margin-top: 1rem;
 }
 
-.start{
+.start {
     color: #1B73E8;
 
 }
 
-.img{
- 
+.img {
+
     width: 40%;
 }
 
-.guidance{
+.guidance {
     display: flex;
     box-shadow: 2px 2px 2px 2px rgba(68, 68, 68, 0.137);
-    width: 40%;
+    width: 80%;
     gap: 3rem;
     position: relative;
-    top: 8rem;
     font-family: "Lexend";
     border-radius: 20px;
     padding: 1rem;
@@ -123,7 +146,7 @@ a {
     padding-top: 2rem;
 }
 
-.details{
+.details {
     background-color: green;
     border-radius: 5px;
     width: 8rem;
@@ -131,11 +154,12 @@ a {
     text-align: center;
     color: white;
     margin-bottom: 1rem;
-  
+
     font-weight: bolder;
     height: 4vh;
 }
-.checkin{
+
+.checkin {
     background-color: #1B73E8;
     margin-bottom: 1rem;
     border-radius: 5px;
@@ -143,16 +167,17 @@ a {
     border: 0;
     text-align: center;
     color: white;
-  
+
     font-weight: bolder;
     height: 4vh;
 
 }
-.notify-p{
+
+.notify-p {
     margin-bottom: 2rem;
 }
 
-.checkout{
+.checkout {
     background-color: red;
     margin-bottom: 1rem;
     border-radius: 5px;
@@ -160,59 +185,84 @@ a {
     border: 0;
     text-align: center;
     color: white;
-  
+
     font-weight: bolder;
     height: 4vh;
 
 }
-.telle{
+
+.telle {
     color: #1B73E8;
     margin-bottom: 1rem;
 }
-.teName{
-    
+
+.teName {
+
     display: flex;
-    align-items: center;
     margin-left: 0;
- 
-    gap: 1rem;
+    padding-bottom: 5px;
+    width: 100%;
+    align-items: center;
+
 }
 
-.teName img{
+.next-timer {
+    position: fixed;
+    top: 10vh;
+    right: 10px;
+    z-index: 10;
+    background-color: rgb(199, 196, 196);
+    border-radius: 10px;
+    box-shadow: 2px 3px 2px green;
+    padding: 1rem;
+}
+
+.name {
+    color: #17273b;
+}
+
+.teName img {
     border-radius: 50px;
     max-width: 3vw;
     max-height: 7vh;
-   
+
 }
 
 
-.tell_all{
-   
+.tell_all {
+
     display: flex;
     flex-direction: column;
 
 }
 
-.countD{
+.countD {
     position: relative;
-    top: 18rem;
-    
+    bottom: 0px;
+    left: 0px;
+    width: fit-content;
+    padding: 1rem;
+    background-color: rgba(68, 68, 68, 0.205);
+    border-radius: 10px;
+
+
 }
 
-.cjecks{
+.cjecks {
     display: flex;
 }
 
-.notify{
+.notify {
     color: red;
     margin-bottom: 1rem;
 }
-.strong{
+
+.strong {
     color: red;
-    font-size: 2rem ;
+    font-size: 2rem;
 }
 
-footer{
+footer {
     background-color: black;
     height: 6rem;
     width: 100%;
@@ -222,23 +272,166 @@ footer{
     justify-content: center;
     align-items: center;
     gap: 4rem;
-   
+
 }
-.test{
+
+.test {
     color: white;
 }
 
-footer img{
+footer img {
     gap: 0.5 rem;
     width: 1.5vw;
 }
-footer small{
-    color:white;
+
+footer small {
+    color: white;
 }
 
-.custName{
-    height: 3vh  ;
+.custName {
+    height: 3vh;
     text-align: center;
     border-radius: 5px;
     border: 2px solid #1B73E8;
+}
+
+/* Teller */
+
+.teller {
+    text-align: center;
+    font-family: "Lexend";
+}
+
+.teller .title {
+    font-size: 1.4rem;
+    color: blue;
+}
+
+nav {
+    position: fixed;
+    top: 0px;
+    background-color: #fff;
+    z-index: 10;
+    justify-content: space-between;
+
+    box-shadow: 2px 3px 4px #444;
+    font-weight: bolder;
+    width: 100%;
+    flex-direction: column;
+}
+
+nav ul {
+    display: flex;
+    padding: 1rem 10rem;
+    justify-content: space-between;
+    list-style-type: none;
+}
+
+.separator {
+    height: 10vh;
+
+}
+
+.hero {
+    display: flex;
+    flex-direction: row;
+}
+
+.customer-info {
+    box-shadow: 2px 3px 4px gray;
+    padding: 1rem 2rem;
+    background-color: rgba(68, 68, 68, 0.582);
+    border-radius: 20px;
+    margin-right: 2rem;
+
+}
+
+.next-customer-timer {
+    margin-top: 10px;
+}
+
+.teller-message {
+    position: fixed;
+    top: 0px;
+    z-index: 1000;
+    width: fit-content;
+    padding: 1rem 2rem;
+    font-weight: bold;
+    background-color: rgb(105, 139, 114);
+    color: black;
+}
+
+.next-customer-timer span {
+    font-size: 2rem;
+    padding: .5rem 1rem;
+    margin: .5rem;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(105, 137, 146);
+    border-radius: 10px;
+}
+
+.title {
+    text-align: center;
+}
+
+.customer-list {
+    margin-top: 2rem;
+    padding: 1rem;
+}
+
+.customer-div {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    box-shadow: 1px 2px 3px green;
+    width: fit-content;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    margin-top: 1rem;
+    margin: 1rem;
+}
+
+.customer-div .number {
+    position: absolute;
+    font-size: 20px;
+    background-color: rgb(15, 83, 15);
+    border-radius: 50%;
+    color: white;
+    top: -10px;
+    left: -10px;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex {
+    display: flex;
+
+}
+
+.flex.flex-row {
+    flex-direction: row;
+    justify-content: start;
+}
+
+.teller-title {
+    text-align: center;
+}
+
+input {
+    padding: .5rem 1rem;
+}
+
+.customer-link {
+    background-color: rgb(109, 41, 41);
+    width: fit-content;
+}
+
+.teller-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
