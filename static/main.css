@@ -5,6 +5,8 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+   
+
 }
 .counter {
     display: flex;
@@ -18,20 +20,154 @@ body {
     padding: 1rem 2rem;
     margin: 5px 10px ;
     border-radius: 10px;
-    background-color: rgb(22, 29, 39);
+    background-color: #1B73E8;
     color: white;
     font-weight: bolder;
 }
 a {
     font-family: "Lexend";
     font-weight: bold;
-    color: blue;
+    color: white;
     text-decoration: none;
-    background-color: #fff;
+    background-color: #1B73E8;
     box-shadow: 2px 2px 2px #444;
     padding: .5rem 1rem ;
     margin: 5px;
+    border-radius: 10px;
+    width: 12rem;
+    border: 0;
+    text-align: center;
 }
 .delete {
+    color: white;
+    background-color: red;
+    border-radius: 10px;
+    width: 12rem;
+    border: 0;
+    text-align: center;
+}
+.all{
+    position: relative;
+    top: 15rem;
+    display: flex;
+    gap: 5rem;
+}
+
+.on{
+    display: flex;
+    flex-direction: column;
+}
+
+.welcome{
+    color: #1B73E8;
+    font-size: 6rem;
+    margin-bottom: -1rem;
+
+}
+.intro{
+    text-align: center;
+    width: 30%;
+}
+
+.start{
+    color: #1B73E8;
+
+}
+
+.img{
+ 
+    width: 40%;
+}
+
+.guidance{
+    display: flex;
+    box-shadow: 2px 2px 2px 2px rgba(68, 68, 68, 0.137);
+    width: 40%;
+    gap: 3rem;
+    position: relative;
+    top: 8rem;
+    font-family: "Lexend";
+    border-radius: 20px;
+    padding: 1rem;
+    padding-bottom: 2rem;
+    padding-top: 2rem;
+}
+
+.details{
+    background-color: green;
+    border-radius: 5px;
+    width: 8rem;
+    border: 0;
+    text-align: center;
+    color: white;
+  
+    font-weight: bolder;
+    height: 4vh;
+}
+.checkin{
+    background-color: #1B73E8;
+    border-radius: 5px;
+    width: 8rem;
+    border: 0;
+    text-align: center;
+    color: white;
+  
+    font-weight: bolder;
+    height: 4vh;
+
+}
+
+.checkout{
+    background-color: red;
+    border-radius: 5px;
+    width: 8rem;
+    border: 0;
+    text-align: center;
+    color: white;
+  
+    font-weight: bolder;
+    height: 4vh;
+
+}
+.telle{
+    color: #1B73E8;
+}
+.teName{
+    display: flex;
+    align-items: center;
+    margin-left: 0;
+ 
+    gap: 1rem;
+}
+
+.teName img{
+    border-radius: 50px;
+    max-width: 3vw;
+    max-height: 7vh;
+   
+}
+
+
+.tell_all{
+   
+    display: flex;
+    flex-direction: column;
+
+}
+
+.countD{
+    position: relative;
+    top: 15rem;
+}
+
+.cjecks{
+    display: flex;
+}
+
+.notify{
     color: red;
+}
+.strong{
+    color: red;
+    font-size: 2rem ;
 }

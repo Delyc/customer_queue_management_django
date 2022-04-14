@@ -9,31 +9,74 @@
     <link rel="stylesheet" href="{% static 'main.css' %}" class="css">
 </head>
 <body>
-    <h1>Welcome</h1>
-    <div class="teller">
-        <h2>Our Teller information</h2>
+    <h1 class="welcome">Welcome!!!</h1>
+    <p>your time, our concern</p>
+    <p class="intro">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into elect</p>
+  
+    <img class="img" src="{% static 'image/get-started.jpg' %}" alt="">
+    <div class="guidance">
         <div>
-            <h3>Name: {{teller.teller}}</h3>
-            <h3>Current customers: {{teller.customers}}</h3>
-            <h3>Average wait time/ customer: {{teller.wait_time}} minutes</h3>
+           <button class="details"> Need datils?</button>
+
+
+            <p>down below you can get the number of people to be served and your estimated waiting time</p>
+            
+        </div>
+        <div>
+            <button class="checkin"> check in</button>
+            <p>Once you are here, click a blue button below to be assigned an id which is your position to be served</p>
+
+        </div>
+        <div>
+             
+            <button class="checkout"> check out</button>
+    <p>Once you are done being served, click the red button below to be remved fromthe queue </p>
+
+        </div>
+     
+  
+    </div>
+    
+
+
+
+    <div class="all">
+    <div class="teller">
+        <h2 class="telle">Teller information</h2>
+        <div class="tell_all">
+            <div class="teName"> <img src="{% static 'image/teller.png' %}" alt=""> <h3> {{teller.teller}}</h3></div> 
+            <div class="teName"> <img src="{% static 'image/waiting.jpg' %}" alt=""> <h3>  {{teller.customers}}</h3></div> 
+            <div class="teName"> <img src="{% static 'image/time.png' %}" alt=""> <h3>  {{teller.wait_time}} min</h3></div> 
+           
         </div>
     </div>
+    <div class="on">
     <div class="notify-div">
         <h1 class="notify"></h1>
         <p class="notify-p"></p>
     </div>
-    <h1>Management</h1>
-    <a href="{% url "register" %}">Register new comer</a>
-    <a href="{% url "delete" %}" class="delete" id="delete">Remove from system</a>
+    <h1 class="telle">Management</h1>
+    <div class="checks">
+        <a href="{% url "register" %}">Check in</a>
+    <a href="{% url "delete" %}" class="delete" id="delete">Check out</a>
+    </div>
+    
+</div>
+</div>
 
-    <h1>Count down</h1>
+<div class="countD">
+    <h1 class="telle">Count down</h1>
     <hr>
-    <h2>Your average estimated time to wait is {{estimated_time}} minutes</h2>
+    <p>Your average estimated time to wait is <strong class="strong">{{estimated_time}} </strong> minutes</p>
     <div class="counter">
         <span class="digit" id="hours"></span>
     <span class="digit" id="minutes"></span>
     <span class="digit" id="seconds"></span>
+</div>
+
+    
     </div>
+
     
 
     <script>
