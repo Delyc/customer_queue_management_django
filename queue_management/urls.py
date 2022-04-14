@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from customers.views import index, register_customer, delete_customer
+from customers.views import index, register_customer, delete_customer, teller_view
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -23,8 +23,9 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index),
-    path('register/', register_customer, name="register"),
-    path("delete/", delete_customer, name="delete"),
+    path('register/<pk>', register_customer, name="register"),
+    path("delete/<pk>", delete_customer, name="delete"),
+    path("queue/<pk>",teller_view, name="teller-view" )
   
     
 ]

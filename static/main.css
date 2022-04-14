@@ -53,6 +53,24 @@ a {
     border: 0;
     text-align: center;
 }
+.add {
+    font-family: "Lexend";
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+   
+    box-shadow: 2px 2px 2px #444;
+    padding: .5rem 1rem ;
+    margin: 5px;
+    border-radius: 10px;
+    width: 8rem;
+    border: 0;
+    text-align: center;
+    color: white;
+    background-color: #1B73E8;
+  
+    
+}
 .all{
     position: relative;
     top: 15rem;
@@ -218,3 +236,9 @@ footer small{
     color:white;
 }
 
+.custName{
+    height: 3vh  ;
+    text-align: center;
+    border-radius: 5px;
+    border: 2px solid #1B73E8;
+}

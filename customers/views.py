@@ -1,21 +1,32 @@
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 import random
-from .models import Customers
+from .models import Customer, Teller
 
 def index(request):
-    customerModel = Customers.objects.all()[0]
-    if not customerModel:
-        return HttpResponse("No customer we have")
-    return render(request, "index.html", context={"estimated_time":customerModel.get_estimated_time(), "customers":customerModel.customers, "teller": customerModel})
+    tellers = Teller.objects.all()
 
+    return render(request, "index.html", context={"tellers":tellers})
 
-def register_customer(request):
-    customerModel = Customers.objects.all()[0]
-    customerModel.add_customer()
-    return redirect("/")
-def delete_customer(request):
-    customerModel = Customers.objects.all()[0]
-    customerModel.remove_customer()
-    return redirect("/")
+def teller_view(request, pk):
+    teller = get_object_or_404(Teller, id=pk)
+    if teller:
+        customers = teller.get_customers()
+        waiting_time= teller.get_estimated_time()
+        return render(request, "teller.html", context={"teller": teller, "customers": customers})
+    return HttpResponse('Not found')
+
+def register_customer(request, pk):
+    teller = get_object_or_404(Teller, id=pk)
+    name = request.GET.get("name", "Un-named")
+    customer = Customer()
+    customer.name = name
+    customer.teller = teller
+    customer.save()
+    return redirect(teller)
+def delete_customer(request, pk):
+    customer = get_object_or_404(Customer, id=pk)
+    teller = customer.teller
+    customer.delete()
+    return redirect(teller)
 # Create your views here.

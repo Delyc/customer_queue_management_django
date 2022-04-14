@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,22 +9,22 @@
     <title>Home</title>
     <link rel="stylesheet" href="{% static 'main.css' %}" class="css">
 </head>
+
 <body>
     <div class="wel">
         <h1 class="welcome">Welcome!!!</h1>
     </div>
-    
-    <p>your time, our concern</p>
-    <p class="intro">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into elect</p>
-  
-    <img class="img" src="{% static 'image/get-started.jpg' %}" alt="">
+
+    <p>Your time, our concern</p>
+    <p class="intro"> Pick a teller of your choice</p>
+
     <div class="guidance">
         <div>
-           <button class="details"> Need datils?</button>
+            <button class="details"> Need datils?</button>
 
 
             <p>down below you can get the number of people to be served and your estimated waiting time</p>
-            
+
         </div>
         <div>
             <button class="checkin"> check in</button>
@@ -31,59 +32,53 @@
 
         </div>
         <div>
-             
+
             <button class="checkout"> check out</button>
-    <p>Once you are done being served, click the red button below to be remved fromthe queue </p>
+            <p>Once you are done being served, click the red button below to be remved fromthe queue </p>
 
         </div>
-     
-  
+
+
     </div>
-    
+
 
 
 
     <div class="all">
-    <div class="teller">
-        <h2 class="telle">Teller information</h2>
-        <div class="tell_all">
-            <div class="teName"> <img src="{% static 'image/teller.png' %}" alt=""> <h3> {{teller.teller}}</h3></div> 
-            <div class="teName"> <img src="{% static 'image/waiting.jpg' %}" alt=""> <h3>  {{teller.customers}}</h3></div> 
-            <div class="teName"> <img src="{% static 'image/time.png' %}" alt=""> <h3>  {{teller.wait_time}} min</h3></div> 
-           
+        <div class="teller">
+            <h2 class="telle">Tellers information</h2>
+            {% for teller in tellers %}
+        
+            <div class="tell_all">
+                <div class="teName"> <img src="{{teller.profile.url}}" alt="">
+                    <h3> {{teller.name}}</h3>
+                </div>
+                <div class="teName"> <img src="{% static 'image/waiting.jpg' %}" alt="">
+                    <h3> {{teller.customers}}</h3>
+                </div>
+                <div class="teName"> <img src="{% static 'image/time.png' %}" alt="">
+                    <h3> wait time: {{teller.get_estimated_time}} min</h3>
+                </div>
+                <div class="teName"> <img src="{% static 'image/time.png' %}" alt="">
+                    <h3>average time: {{teller.wait_time}} min</h3>
+                </div>
+                <button class="checkin"> <a href="{{teller.get_absolute_url}}">View</a> </button>
+
+            </div>
+            {% empty%}
+            <h3>No tellers available now</h3>
+            <p>Check in after some time</p>
+            {% endfor %}
         </div>
+       
     </div>
-    <div class="on">
-    <div class="notify-div">
-        <h1 class="notify"></h1>
-        <p class="notify-p"></p>
-    </div>
-    <h1 class="telle">Management</h1>
-    <div class="checks">
-        <a href="{% url "register" %}">Check in</a>
-    <a href="{% url "delete" %}" class="delete" id="delete">Check out</a>
-    </div>
-    
-</div>
-</div>
 
-<div class="countD">
-    <h1 class="telle">Count down</h1>
-    <hr>
-    <p>Your average estimated time to wait is <strong class="strong">{{estimated_time}} </strong> minutes</p>
-    <div class="counter">
-        <span class="digit" id="hours"></span>
-    <span class="digit" id="minutes"></span>
-    <span class="digit" id="seconds"></span>
-</div>
-
-    
-    </div>
+   
 
     <footer>
         <small>&copy; Copyright 2022, group XXX</small>
-        
-    
+
+
         <div class="media">
             <img src="{% static 'image/insta.png' %}" alt="">
             <img src="{% static 'image/youtube.png' %}" alt="">
@@ -92,47 +87,55 @@
 
 
     </footer>
-    
+
 
     <script>
         const sec = 1000;
-const min = sec * 60;
-const hour = min * 60;
-const day = hour * 24;
+        const min = sec * 60;
+        const hour = min * 60;
+        const day = hour * 24;
 
-const endt = new Date();
-endt.setMinutes(endt.getMinutes() + {{estimated_time}})
+        const endt = new Date();
+        endt.setMinutes(endt.getMinutes() + {
+            {
+                estimated_time
+            }
+        })
 
-const int = setInterval(() => {
-  const current = new Date().getTime();
-  const remaining = endt.getTime() - current;
-  document.getElementById("hours").innerText = Math.floor(
-    (remaining % day) / hour
-  );
-  document.getElementById("minutes").innerText = Math.floor(
-    (remaining % hour) / min
-  );
-  document.getElementById("seconds").innerText = Math.floor(
-    (remaining % min) / sec
-  );
+        const int = setInterval(() => {
+            const current = new Date().getTime();
+            const remaining = endt.getTime() - current;
+            document.getElementById("hours").innerText = Math.floor(
+                (remaining % day) / hour
+            );
+            document.getElementById("minutes").innerText = Math.floor(
+                (remaining % hour) / min
+            );
+            document.getElementById("seconds").innerText = Math.floor(
+                (remaining % min) / sec
+            );
 
-  if (remaining < 0) {
-    clearInterval(int);
-    document.querySelector(".notify").innerText = "You are on!";
-    document.querySelector(".notify-p").innerHTML =
-      "Your time is now. You can meet the teller";
-    document.getElementById("seconds").innerText = 0
-    document.getElementById("minutes").innerText = 0
-    document.getElementById("hours").innerText = 0
-    
-    if ({{customers}} >0) {
-       document.getElementById("delete").click() 
-    }
-    
-  }
-}, 1000);
+            if (remaining < 0) {
+                clearInterval(int);
+                document.querySelector(".notify").innerText = "You are on!";
+                document.querySelector(".notify-p").innerHTML =
+                    "Your time is now. You can meet the teller";
+                document.getElementById("seconds").innerText = 0
+                document.getElementById("minutes").innerText = 0
+                document.getElementById("hours").innerText = 0
 
+                if ({
+                        {
+                            customers
+                        }
+                    } > 0) {
+                    document.getElementById("delete").click()
+                }
+
+            }
+        }, 1000);
     </script>
 
 </body>
+
 </html>
