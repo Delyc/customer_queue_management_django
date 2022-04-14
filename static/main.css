@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@200;400;600&display=swap');
+body {
+    display: flex;
+    font-family: "Lexend";
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.counter {
+    display: flex;
+    flex-direction: rows;
+    width: fit-content;
+    padding: 1rem;
+    gap: 1rem;
+}
+.counter .digit {
+    font-size: 1.5rem;
+    padding: 1rem 2rem;
+    margin: 5px 10px ;
+    border-radius: 10px;
+    background-color: rgb(22, 29, 39);
+    color: white;
+    font-weight: bolder;
+}
+a {
+    font-family: "Lexend";
+    font-weight: bold;
+    color: blue;
+    text-decoration: none;
+    background-color: #fff;
+    box-shadow: 2px 2px 2px #444;
+    padding: .5rem 1rem ;
+    margin: 5px;
+}
+.delete {
+    color: red;
+}

@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'main.css' %}" class="css">
+</head>
+<body>
+    <h1>Welcome</h1>
+    <div class="teller">
+        <h2>Our Teller information</h2>
+        <div>
+            <h3>Name: {{teller.teller}}</h3>
+            <h3>Current customers: {{teller.customers}}</h3>
+            <h3>Average wait time/ customer: {{teller.wait_time}} minutes</h3>
+        </div>
+    </div>
+    <div class="notify-div">
+        <h1 class="notify"></h1>
+        <p class="notify-p"></p>
+    </div>
+    <h1>Management</h1>
+    <a href="{% url "register" %}">Register new comer</a>
+    <a href="{% url "delete" %}" class="delete" id="delete">Remove from system</a>
+
+    <h1>Count down</h1>
+    <hr>
+    <h2>Your average estimated time to wait is {{estimated_time}} minutes</h2>
+    <div class="counter">
+        <span class="digit" id="hours"></span>
+    <span class="digit" id="minutes"></span>
+    <span class="digit" id="seconds"></span>
+    </div>
+    
+
+    <script>
+        const sec = 1000;
+const min = sec * 60;
+const hour = min * 60;
+const day = hour * 24;
+
+const endt = new Date();
+endt.setMinutes(endt.getMinutes() + {{estimated_time}})
+
+const int = setInterval(() => {
+  const current = new Date().getTime();
+  const remaining = endt.getTime() - current;
+  document.getElementById("hours").innerText = Math.floor(
+    (remaining % day) / hour
+  );
+  document.getElementById("minutes").innerText = Math.floor(
+    (remaining % hour) / min
+  );
+  document.getElementById("seconds").innerText = Math.floor(
+    (remaining % min) / sec
+  );
+
+  if (remaining < 0) {
+    clearInterval(int);
+    document.querySelector(".notify").innerText = "You are on!";
+    document.querySelector(".notify-p").innerHTML =
+      "Your time is now. You can meet the teller";
+    document.getElementById("seconds").innerText = 0
+    document.getElementById("minutes").innerText = 0
+    document.getElementById("hours").innerText = 0
+    
+    if ({{customers}} >0) {
+       document.getElementById("delete").click() 
+    }
+    
+  }
+}, 1000);
+
+    </script>
+
+</body>
+</html>
