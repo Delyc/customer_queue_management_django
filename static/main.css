@@ -197,7 +197,6 @@ a {
 }
 
 .teName {
-
     display: flex;
     margin-left: 0;
     padding-bottom: 5px;
@@ -350,17 +349,6 @@ nav ul {
     margin-top: 10px;
 }
 
-.teller-message {
-    position: fixed;
-    top: 0px;
-    z-index: 1000;
-    width: fit-content;
-    padding: 1rem 2rem;
-    font-weight: bold;
-    background-color: rgb(105, 139, 114);
-    color: black;
-}
-
 .next-customer-timer span {
     font-size: 2rem;
     padding: .5rem 1rem;
@@ -415,6 +403,7 @@ nav ul {
 .flex.flex-row {
     flex-direction: row;
     justify-content: start;
+    flex-wrap: wrap;
 }
 
 .teller-title {

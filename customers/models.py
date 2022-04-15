@@ -1,6 +1,7 @@
 import random
-from datetime import datetime
+from datetime import datetime, timedelta
 from distutils.command.upload import upload
+from time import timezone
 
 from django.db import models
 from django.urls import reverse
@@ -18,10 +19,18 @@ class Customer(models.Model):
     code = models.CharField(max_length=255)
     arrived_at = models.DateTimeField(auto_now_add=True)
     teller = models.ForeignKey("Teller", on_delete=models.CASCADE)
+    expired_date = models.DateTimeField(
+        auto_now_add=False, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.code:
             self.code = gen_id()
+        if not self.expired_date:
+            now = datetime.now()
+            future = now + timedelta(minutes=self.teller.wait_time)
+            print(future, now)
+            print(future > now)
+            self.expired_date = future
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -39,6 +48,8 @@ class Teller(models.Model):
     name = models.CharField(max_length=30)
     wait_time = models.PositiveIntegerField(default=1)
     profile = models.ImageField(upload_to="profile", default="avatar.png")
+    completion_time = models.DateTimeField(
+        auto_now_add=False, blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -63,8 +74,15 @@ class Teller(models.Model):
         return reverse("register", kwargs={"pk": self.pk})
 
     def get_next_customer(self):
+        now = datetime.now()
         customers = self.customer_set.last()
-        return customers
+        if customers:
+            if customers.expired_date > now:
+                return customers
+            else:
+                customers.delete()
+
+        return None
 
 
 # Create your models here.

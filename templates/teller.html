@@ -9,6 +9,7 @@
     <title>Teller| {{teller.name}}</title>
     <link rel="stylesheet" href="{% static 'main.css' %}" class="css" />
     <link rel="shortcut icon" href="{% static 'image/favicon.png'%}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'update.css' %}">
 </head>
 
 <body>
@@ -34,8 +35,8 @@
             <h4 class="title">Next customer in...</h4>
             <div class="next-customer-timer">
 
-                <span class="c-digitit" id="c-hours">0</span>
-                <span id="c-minutes" class="c-digitit">0</span><span id="c-seconds" class="c-digitit">0</span>
+                <span class="c-digit" id="c-hours">0</span>
+                <span id="c-minutes" class="c-digit">0</span><span id="c-seconds" class="c-digit">0</span>
             </div>
         </div>
 
@@ -104,7 +105,7 @@
             <div class="customer-list">
                 <h3 class="title">Pending customers</h3>
                 <hr>
-                <div class="flex flex-row">
+                <div class="flex flex-row" id="customer-list">
                     {% for customer in customers %}
 
                     <div class="customer-div">
@@ -150,11 +151,29 @@
             <img src="{% static 'image/twitte.png' %}" alt="" />
         </div>
     </footer>
-    <div id="teller-message" class="teller-message"></div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    {{teller.id| json_script:"teller"}}
+    <div id="teller-message" class="teller-update">
+        <h2>Updates tracker</h2>
+        <hr>
+        <div class="messages-div">
+        </div>
+        <div class="relative">
+
+            <div class="chat-div">
+                <textarea name="chat" id="chat-message" rows="2" placeholder="Message..."></textarea>
+                <button id="send-message">Send</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="{% static 'reconnecting-websocket.min.js' %}"></script>
     <script>
 
         const randomColor = Math.floor(Math.random() * 16777215).toString(16);
-        document.querySelectorAll(".numer").forEach(num => num.backgroundColor = "#" + randomColor);
+        document.querySelectorAll(".number").forEach(num => num.backgroundColor = "#" + randomColor);
         const estimated_time = "{{teller.get_estimated_time}}"
         const teller_customers = "{{teller.customers}}"
         const sec = 1000;
@@ -186,38 +205,151 @@
                 document.getElementById("seconds").innerText = 0
                 document.getElementById("minutes").innerText = 0
                 document.getElementById("hours").innerText = 0
-
-                if (teller_customers > 0) {
-                    document.getElementById("{{teller.get_next_customer.code}}").click()
-                }
             }
         }, 1000);
+        let remainingForNextCustomer;
+        try {
+            const wt = "{{next_time}}"
+            console.log(wt)
+            const endCustomer = new Date(wt)
+            console.log(endCustomer)
+            const nextCustomer = setInterval(() => {
+                const current = new Date().getTime();
+                const remaining = endCustomer.getTime() - current;
+                document.getElementById("c-hours").innerText = Math.floor(
+                    (remaining % day) / hour
+                );
+                document.getElementById("c-minutes").innerText = Math.floor(
+                    (remaining % hour) / min
+                );
+                document.getElementById("c-seconds").innerText = Math.floor(
+                    (remaining % min) / sec
+                );
+
+                if (remaining < 0) {
+                    clearInterval(nextCustomer);
+                    document.getElementById("c-seconds").innerText = 0
+                    document.getElementById("c-minutes").innerText = 0
+                    document.getElementById("c-hours").innerText = 0
+                }
+            }, 1000);
+        } catch (error) {
+            console.warn(error)
+        }
+
     </script>
-    <script>
+    <script defer>
+        let count = 0
         const teller = JSON.parse("{{teller.id}}")
+        const ws_scheme = window.location.protocol == "https:" ? "wss://" : "ws://"
 
-        const customerSocket = new WebSocket(
-            "ws://" + window.location.host + "/ws/teller-view/" + teller + "/"
+        const customerSocket = new ReconnectingWebSocket(
+            ws_scheme + window.location.host + "/ws/teller-view/" + teller + "/"
         )
+        const audio = new Audio(
+            "{% static 'audio.mp3' %}"
+        );
 
+
+        function renderNewCustomer(data) {
+            const template = `
+            <div class="update customer">
+                ${data.message}
+                <span>${new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}</span>
+            </div>
+            `
+            return template
+        }
+        function renderNewChat(data) {
+            const userId = getName();
+            const owner = userId == data.sender ? "own" : "other"
+            const template = `
+            <div class="update chat ${owner}">
+                <b>From: ${data.sender}</b><br/>
+                <p>${data.message}</p>
+                <br/>
+                <span>${new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}</span>
+            </div>
+            `
+            return template
+        }
         customerSocket.onmessage = function (e) {
             const data = JSON.parse(e.data)
             console.log(data)
-            document.querySelector("#teller-message").innerText = data.message
+            if (data.mtype == "checkin") {
+                $(".messages-div").append(
+                    renderNewCustomer(data)
+                )
+            } else {
+                $(".messages-div").append(
+                    renderNewChat(data)
+                )
+            }
+
+            $(".teller-update").animate({
+                scrollTop: $('.teller-update').get(0).scrollHeight
+            }, 1000)
+
+            audio.play();
+            if (!document.hasFocus()) {
+                count++
+                document.title = `(${count}) Teller View`
+            }
+
         }
+        $(document).on("focus", (e) => {
+            count = 0
+            document.title = "Home"
+        })
         customerSocket.onclose = function () {
             console.log("We lost connection")
         }
         document.querySelector("form").addEventListener("submit", function (e) {
+
             e.preventDefault()
             const name = e.target.name.value
             const data = JSON.stringify({
-                "name": name
+                "name": name,
+                "mtype": "checkin"
             })
             customerSocket.send(data)
             e.target.reset()
         })
+
+        function getName() {
+
+            const name = sessionStorage.getItem("sender");
+            if (!name) {
+                let new_name = prompt("To chat enter your name: ",)
+                while (!new_name) {
+                    new_name = prompt("To chat enter your name: ",)
+                }
+                sessionStorage.setItem("sender", new_name)
+                return new_name
+            }
+            return name
+        }
+
+
+        $("#send-message").click((e) => {
+            $message = $("#chat-message").val()
+            if ($message.length > 2) {
+                const sender = getName()
+                const data = JSON.stringify({
+                    "name": sender,
+                    "message": $message,
+                    "mtype": "chat"
+                })
+                customerSocket.send(data)
+                $("#chat-message").val("")
+
+            } else {
+                $("#chat-message").val("")
+            }
+
+        })
     </script>
+    <script defer src="{% static 'main.js' %}"></script>
 </body>
 
 </html>

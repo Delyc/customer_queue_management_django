@@ -28,13 +28,13 @@
 
         </div>
         <div>
-            <button class="checkin"> check in</button>
+            <button class="checkin"> Check in</button>
             <p>Once you are here, click a blue button below to be assigned an id which is your position to be served</p>
 
         </div>
         <div>
 
-            <button class="checkout"> check out</button>
+            <button class="checkout"> Check out</button>
             <p>Once you are done being served, click the red button below to be remved fromthe queue </p>
 
         </div>
@@ -61,7 +61,7 @@
                     <h3>Customers: {{teller.customers}}</h3>
                 </div>
                 <div class="teName"> <img src="{% static 'image/time.png' %}" alt="">
-                    <h3>Waitting: {{teller.get_estimated_time}} min</h3>
+                    <h3>Waiting: {{teller.get_estimated_time}} min</h3>
                 </div>
                 <div class="teName"> <img src="{% static 'image/timer.png' %}" alt="">
                     <h3>Time/cust: {{teller.wait_time}} min</h3>
