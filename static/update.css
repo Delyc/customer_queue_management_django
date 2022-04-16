@@ -1,9 +1,9 @@
 .teller-update {
     position: fixed;
     bottom: 10px;
-    max-height: 300px;
+    max-height: 400px;
     right: 10px;
-    width: 200px;
+    width: 250px;
     z-index: 1000;
     padding: 1rem;
     font-weight: bold;
@@ -26,13 +26,13 @@
     position: absolute;
     bottom: -5px;
     right: 5px;
-    background-color: rgb(39, 44, 54);
+    background-color: rgb(38, 43, 116);
     padding: .1rem;
     border-radius: 3px;
     color: white;
     font-weight: lighter;
     font-size: small;
-    z-index: 10;
+    z-index: 100;
 
 }
 
@@ -112,19 +112,44 @@ body {
     justify-self: right;
     max-width: 70%;
     height: max-content;
-    overflow: hidden;
+    overflow: visible;
     margin-left: auto;
     white-space: normal;
     overflow-wrap: break-word;
+    min-width: 100px;
 }
 
 .teller-update .update.chat.other {
     justify-self: right;
     max-width: 70%;
     height: max-content;
-    overflow: hidden;
+    overflow: visible;
     margin-right: auto;
     white-space: normal;
     overflow-wrap: break-word;
     background-color: aquamarine;
+}
+
+.hide-own {
+    display: none;
+}
+
+.disable-sound {
+    position: absolute;
+    bottom: 10px;
+    z-index: 2000;
+    right: 10px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    height: 30px;
+    width: 30px;
+
+}
+
+.disable-sound img {
+    object-fit: contain;
+    pointer-events: none;
+    height: 100%;
+    width: 100%;
 }

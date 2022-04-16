@@ -50,6 +50,20 @@ class CustomerConsumer(WebsocketConsumer):
                     "type": "customer_message"
                 }
             )
+
+        elif tp == "checkout":
+            now = datetime.now()
+            teller = Teller.objects.get(id=self.teller)
+            async_to_sync(self.channel_layer.group_send)(
+                self.teller_name,
+                {
+                    'message': text_data_json["message"],
+                    "code": text_data_json["code"],
+                    "mtype": tp,
+                    "type": "customer_message"
+                }
+            )
+
         else:
             async_to_sync(self.channel_layer.group_send)(
                 self.teller_name,
@@ -66,6 +80,13 @@ class CustomerConsumer(WebsocketConsumer):
         tp = event["mtype"]
         print(tp)
         if tp == "checkin":
+            data = {
+                'code': event["code"],
+                "message": message,
+                "mtype": tp
+            }
+            self.send(text_data=json.dumps(data))
+        elif tp == "checkout":
             data = {
                 'code': event["code"],
                 "message": message,
