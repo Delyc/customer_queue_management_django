@@ -53,9 +53,11 @@ The other command would be about launching a docker container to run redis. **Re
 ## How to contribute
 Just start by forking the project
 
-## About author
+## About authors
 [Fabrice Hafashimana](https://github.com/feyton)- A happy traveller and a software developer by passion. If you see me around, say hi and we can talk tech over a cup of coffee. 
 Remember to follow me on my socials.
+
+[Delyce Twizeyimana](https://github.com/delyc) - An open-minded Software Engineer with a keen interest in creating elegant tech solutions
 
 ### Resources/ Debugging/ Documentation
 - [Django channels](https://channels.readthedocs.io/en/stable/)
