@@ -73,6 +73,9 @@ class Teller(models.Model):
     def get_register_url(self):
         return reverse("register", kwargs={"pk": self.pk})
 
+    def get_update_url(self):
+        return reverse("update", kwargs={"pk": self.pk})
+
     def get_next_customer(self):
         now = datetime.now()
         customers = self.customer_set.last()

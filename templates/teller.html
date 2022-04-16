@@ -23,34 +23,31 @@
     <div class="teller">
         <h2 class="title">Current customer:</h2>
     </div>
-
-    {% if teller.get_next_customer %}
-    <div class="hero">
-        <div class="customer-info">
-            <h4>Name: {{teller.get_next_customer.name}}</h4>
-            <h4>Code: {{teller.get_next_customer.code}}</h4>
-            <h4>Arrived at: {{teller.get_next_customer.arrived_at}}</h4>
-        </div>
-        <div class="next-timer">
-            <h4 class="title">Next customer in...</h4>
-            <div class="next-customer-timer">
-
-                <span class="c-digit" id="c-hours">0</span>
-                <span id="c-minutes" class="c-digit">0</span><span id="c-seconds" class="c-digit">0</span>
+    <div id="next-customer-div">
+        {% if teller.get_next_customer %}
+        <div class="hero">
+            <div class="customer-info">
+                <h4>Name: {{teller.get_next_customer.name}}</h4>
+                <h4>Code: {{teller.get_next_customer.code}}</h4>
+                <h4>Arrived at: {{teller.get_next_customer.arrived_at}}</h4>
             </div>
+            <div class="next-timer">
+                <h4 class="title">Next customer in...</h4>
+                <div class="next-customer-timer">
+
+                    <span class="c-digit" id="c-hours">0</span>
+                    <span id="c-minutes" class="c-digit">0</span><span id="c-seconds" class="c-digit">0</span>
+                </div>
+            </div>
+
         </div>
+        {% else %}
+        <div>
+            <h2>No customers</h2>
+        </div>
+        {% endif %}
 
     </div>
-    {% else %}
-    <div>
-        <h2>No customers</h2>
-    </div>
-    {% endif %}
-
-
-
-
-
     <div class="all">
         <div class="teller">
             <h2 class="teller">Teller information</h2>
@@ -108,7 +105,7 @@
                 <div class="flex flex-row" id="customer-list">
                     {% for customer in customers %}
 
-                    <div class="customer-div">
+                    <div class="customer-div" id="{{customer.code}}">
                         <span class="number" data-color="#345">{{forloop.counter}}</span>
                         <h3>Name: {{customer.name}}</h3>
                         <h3>Code: {{customer.code}}</h3>
@@ -156,6 +153,8 @@
     {{teller.id| json_script:"teller"}}
     <div id="teller-message" class="teller-update">
         <h2>Updates tracker</h2>
+        <button class="disable-sound" data-message="Disable sound" id="disable-sound"><img
+                src="{% static 'speaker.png' %}" class="speaker-img" alt=""></button>
         <hr>
         <div class="messages-div">
         </div>
@@ -168,12 +167,9 @@
         </div>
 
     </div>
-
+    <script defer src="{% static 'main.js' %}"></script>
     <script src="{% static 'reconnecting-websocket.min.js' %}"></script>
     <script>
-
-        const randomColor = Math.floor(Math.random() * 16777215).toString(16);
-        document.querySelectorAll(".number").forEach(num => num.backgroundColor = "#" + randomColor);
         const estimated_time = "{{teller.get_estimated_time}}"
         const teller_customers = "{{teller.customers}}"
         const sec = 1000;
@@ -187,55 +183,53 @@
         const int = setInterval(() => {
             const current = new Date().getTime();
             const remaining = endt.getTime() - current;
-            document.getElementById("hours").innerText = Math.floor(
+            $("#hours").text(Math.floor(
                 (remaining % day) / hour
-            );
-            document.getElementById("minutes").innerText = Math.floor(
+            ));
+            $("#minutes").text(Math.floor(
                 (remaining % hour) / min
-            );
-            document.getElementById("seconds").innerText = Math.floor(
+            ));
+            $("#seconds").text(Math.floor(
                 (remaining % min) / sec
-            );
+            ));
 
             if (remaining < 0) {
                 clearInterval(int);
-                document.querySelector(".notify").innerText = "You are on!";
-                document.querySelector(".notify-p").innerHTML =
+                $(".notify").text("You are on!");
+                $(".notify-p").innerHTML =
                     "Your time is now. You can meet the teller";
-                document.getElementById("seconds").innerText = 0
-                document.getElementById("minutes").innerText = 0
-                document.getElementById("hours").innerText = 0
+                $("#seconds").text(0)
+                $("#minutes").text(0)
+                $("#hours").text(0)
             }
         }, 1000);
-        let remainingForNextCustomer;
-        try {
-            const wt = "{{next_time}}"
-            console.log(wt)
-            const endCustomer = new Date(wt)
-            console.log(endCustomer)
-            const nextCustomer = setInterval(() => {
-                const current = new Date().getTime();
-                const remaining = endCustomer.getTime() - current;
-                document.getElementById("c-hours").innerText = Math.floor(
-                    (remaining % day) / hour
-                );
-                document.getElementById("c-minutes").innerText = Math.floor(
-                    (remaining % hour) / min
-                );
-                document.getElementById("c-seconds").innerText = Math.floor(
-                    (remaining % min) / sec
-                );
 
-                if (remaining < 0) {
-                    clearInterval(nextCustomer);
-                    document.getElementById("c-seconds").innerText = 0
-                    document.getElementById("c-minutes").innerText = 0
-                    document.getElementById("c-hours").innerText = 0
-                }
-            }, 1000);
-        } catch (error) {
-            console.warn(error)
-        }
+        const ending = new Date("{{next_time}}")
+        const cur = new Date("{{current_time}}")
+        const rseconds = cur.getSeconds() - ending.getSeconds()
+        ending.setSeconds(ending.getSeconds() + rseconds)
+        const nextCustomer = setInterval(() => {
+            const endCustomer = ending.getTime()
+            const current = new Date().getTime();
+            const remaining = endCustomer - current;
+            $("#c-hours").text(Math.floor(
+                (remaining % day) / hour
+            ));
+            $("#c-minutes").text(Math.floor(
+                (remaining % hour) / min
+            ));
+            $("#c-seconds").text(Math.floor(
+                (remaining % min) / sec
+            ));
+
+            if (remaining < 0) {
+                clearInterval(nextCustomer);
+                $("#c-seconds").text(0)
+                $("#c-minutes").text(0)
+                $("#c-hours").text(0)
+            }
+        }, 1000);
+
 
     </script>
     <script defer>
@@ -246,9 +240,99 @@
         const customerSocket = new ReconnectingWebSocket(
             ws_scheme + window.location.host + "/ws/teller-view/" + teller + "/"
         )
+
         const audio = new Audio(
             "{% static 'audio.mp3' %}"
         );
+
+
+        const renderNextCustomer = (customer, div) => {
+            const template = `
+              <div class="hero">
+                      <div class="customer-info">
+                          <h4>Name: ${customer.name}</h4>
+                          <h4>Code: ${customer.code}</h4>
+                          <h4>Arrived at: ${new Date(customer.arrived_at).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}</h4>
+                      </div>
+                      <div class="next-timer">
+                          <h4 class="title">Next customer in...</h4>
+                          <div class="next-customer-timer">
+          
+                              <span class="c-digit" id="c-hours">0</span>
+                              <span id="c-minutes" class="c-digit">0</span><span id="c-seconds" class="c-digit">0</span>
+                          </div>
+                      </div>
+          
+                  </div>
+              `;
+            div.html(template);
+        };
+
+        const renderCustomers = (customers, div) => {
+            data = "";
+            customers.forEach((customer, index) => {
+                const customerDiv = `
+              <div class="customer-div" id="${customer.fields.code}">
+              <span class="number" >${index + 1}</span>
+              <h3>Name: ${customer.fields.name}</h3>
+              <h3>Code: ${customer.fields.code}</h3>
+              <h3>Arrived at: ${new Date(customer.fields.arrived_at).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}</h3>
+          
+              <a class="customer-link" id="${customer.fields.code}" href="/delete/${customer.pk}">Check out</a>
+          </div>
+                  `;
+                data += customerDiv;
+            });
+
+            div.html(data);
+        };
+
+        const renderHomeCustomers = () => {
+            const customerDiv = $("#customer-list")
+            const nextCustomerDiv = $("#next-customer-div")
+            const url = "{{teller.get_update_url}}"
+            $.ajax({
+                method: "GET",
+                url: url,
+                beforeSend: () => {
+                    console.log("Updating data")
+                },
+                success: (data) => {
+                    const newData = JSON.parse(data)
+                    console.log(JSON.parse(newData.customers))
+                    if (newData.next_customer) {
+                        renderNextCustomer(newData.next_customer, nextCustomerDiv)
+                        renderCustomers(JSON.parse(newData.customers), customerDiv)
+                    } else {
+                        nextCustomerDiv.html(`
+                        
+                        <h4>No waiting customer registered</>
+                        `);
+                        customerDiv.html(`
+                        <h2>Get served as you check in</h2>
+                        
+                        `)
+                    }
+
+
+                },
+                error: (error) => {
+                    console.log(error)
+                },
+                complete: () => {
+                    console.log("Done sending request")
+                }
+
+            })
+        }
+
+        const allowNotification = () => {
+            const state = localStorage.getItem("notify")
+            if (state === "false") {
+                return false
+            }
+            return true
+        }
 
 
         function renderNewCustomer(data) {
@@ -260,12 +344,22 @@
             `
             return template
         }
+        function renderCheckout(data) {
+            const template = `
+            <div class="update checkout">
+                ${data.message}
+                <span>${new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}</span>
+            </div>
+            `
+            return template
+        }
         function renderNewChat(data) {
             const userId = getName();
             const owner = userId == data.sender ? "own" : "other"
+            const head = userId == data.sender ? `` : `<b>From: ${data.sender}</b><br/>`
             const template = `
             <div class="update chat ${owner}">
-                <b>From: ${data.sender}</b><br/>
+                ${head}
                 <p>${data.message}</p>
                 <br/>
                 <span>${new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}</span>
@@ -275,12 +369,20 @@
         }
         customerSocket.onmessage = function (e) {
             const data = JSON.parse(e.data)
-            console.log(data)
             if (data.mtype == "checkin") {
                 $(".messages-div").append(
                     renderNewCustomer(data)
-                )
-            } else {
+                );
+                renderHomeCustomers()
+            } else if (data.mtype == "checkout") {
+                const id = data.code
+                $("#" + id).hide()
+                $(".messages-div").append(
+                    renderCheckout(data)
+                );
+            }
+
+            else {
                 $(".messages-div").append(
                     renderNewChat(data)
                 )
@@ -289,17 +391,31 @@
             $(".teller-update").animate({
                 scrollTop: $('.teller-update').get(0).scrollHeight
             }, 1000)
+            if (allowNotification()) {
+                audio.play();
+            }
 
-            audio.play();
             if (!document.hasFocus()) {
                 count++
                 document.title = `(${count}) Teller View`
             }
 
         }
+
+        $(document).on("keyup", (e) => {
+            $textarea = $("textarea")
+            if ($textarea.is(":focus")) {
+                if (e.keyCode == 13 && !e.shiftKey) {
+                    $("#send-message").click()
+                }
+            }
+        })
         $(document).on("focus", (e) => {
             count = 0
-            document.title = "Home"
+            setTimeout(() => {
+                document.title = "Teller view"
+            }, 1000)
+
         })
         customerSocket.onclose = function () {
             console.log("We lost connection")
@@ -348,8 +464,33 @@
             }
 
         })
+
+        $("body").on("click", ".customer-link", (e) => {
+            e.preventDefault();
+            const elem = $(this)
+            const url = e.target.getAttribute("href");
+            const id = e.target.getAttribute("id");
+            console.log(url, id)
+            $.ajax({
+                method: "GET",
+                url: url,
+                success: (data) => {
+                    console.log(data);
+                    const newdata = {
+                        mtype: "checkout",
+                        message: `Customer with code ${id} checked out`,
+                        name: "teller",
+                        code: id
+                    };
+                    customerSocket.send(JSON.stringify(newdata));
+                },
+                error: (error) => {
+                    console.log(error);
+                },
+            });
+        });
     </script>
-    <script defer src="{% static 'main.js' %}"></script>
+
 </body>
 
 </html>
