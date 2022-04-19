@@ -1,0 +1,155 @@
+.teller-update {
+    position: fixed;
+    bottom: 10px;
+    max-height: 400px;
+    right: 10px;
+    width: 250px;
+    z-index: 1000;
+    padding: 1rem;
+    font-weight: bold;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 3px 4px gray;
+    -webkit-box-shadow: 0 0 5px 2px rgb(146, 135, 135);
+    -moz-box-shadow: 0 0 5px 2px rgb(172, 158, 158);
+    border-radius: 20px;
+    color: black;
+    overflow-y: scroll;
+}
+
+.teller-update {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 255, 0.466) rgba(0, 128, 0, 0.452);
+    scroll-margin: 2px 1px;
+}
+
+.teller-update .update span {
+    position: absolute;
+    bottom: -5px;
+    right: 5px;
+    background-color: rgb(38, 43, 116);
+    padding: .1rem;
+    border-radius: 3px;
+    color: white;
+    font-weight: lighter;
+    font-size: small;
+    z-index: 100;
+
+}
+
+.teller-update h2 {
+    font-size: 12px;
+    text-align: center;
+}
+
+.teller-update .update {
+    font-size: 12px;
+    background-color: rgba(62, 78, 114, 0.651);
+    font-weight: normal;
+    width: fit-content;
+    color: rgb(0, 0, 0);
+    padding: .3rem .5rem;
+    margin: .5rem .3rem;
+    border-radius: 5px;
+    height: max-content;
+    position: relative;
+
+}
+
+.teller-update .update.customer {
+    background-color: rgb(160, 103, 103);
+    justify-self: left;
+    width: 70% !important;
+}
+
+body {
+    min-height: 100vh;
+}
+
+.chat-div {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+}
+
+.relative {
+    position: relative;
+    height: 100px;
+    width: 100%;
+}
+
+.chat-div textarea {
+    outline: none;
+    padding: .2rem;
+    border-radius: 10px;
+    border: 1px solid green;
+    color: black;
+    background-color: #fff;
+    font-family: "Lexend";
+    width: 100%;
+    font-size: smaller;
+
+}
+
+#send-message {
+    background-color: rgb(46, 74, 100);
+    padding: .1rem .2rem;
+    outline: none;
+    border: none;
+    border-radius: 2px;
+    color: white;
+    font-family: "Lexend";
+    cursor: pointer;
+}
+
+.chat-div textarea::placeholder {
+    color: black;
+    font-family: "Lexend";
+    font-size: smaller;
+    font-weight: 200;
+}
+
+.teller-update .update.chat.own {
+    justify-self: right;
+    max-width: 70%;
+    height: max-content;
+    overflow: visible;
+    margin-left: auto;
+    white-space: normal;
+    overflow-wrap: break-word;
+    min-width: 100px;
+}
+
+.teller-update .update.chat.other {
+    justify-self: right;
+    max-width: 70%;
+    height: max-content;
+    overflow: visible;
+    margin-right: auto;
+    white-space: normal;
+    overflow-wrap: break-word;
+    background-color: aquamarine;
+}
+
+.hide-own {
+    display: none;
+}
+
+.disable-sound {
+    position: absolute;
+    bottom: 10px;
+    z-index: 2000;
+    right: 10px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    height: 30px;
+    width: 30px;
+
+}
+
+.disable-sound img {
+    object-fit: contain;
+    pointer-events: none;
+    height: 100%;
+    width: 100%;
+}
